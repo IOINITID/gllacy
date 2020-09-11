@@ -1,4 +1,3 @@
-// Common.js modules type
 const {src, dest, watch, series, parallel} = require('gulp');
 const plumber = require('gulp-plumber');
 const sourcemap = require('gulp-sourcemaps');
@@ -11,19 +10,32 @@ const rename = require('gulp-rename');
 const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const webpicture = require('gulp-webp');
-const uglify = require('gulp-uglify');
+const terser = require('gulp-terser');
 const svgstore = require('gulp-svgstore');
 const del = require('del');
 const posthtml = require('gulp-posthtml');
 const include = require('posthtml-include');
 const babel = require('gulp-babel');
 
+// Source files enum
+const SourceFiles = {
+  FONTS: 'source/fonts/**/*.{woff2,woff,ttf}',
+};
+
 // Clean build directory
 const clean = () => {
   return del('build');
 };
 
-// Styles optimizations
+// HTML optimizations
+const html = () => {
+  return src('source/**/*.html')
+    .pipe(posthtml([include()]))
+    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(dest('build'));
+};
+
+// CSS optimizations
 const styles = () => {
   return src('source/sass/style.scss')
     .pipe(plumber())
@@ -37,26 +49,6 @@ const styles = () => {
     .pipe(browserSync.stream());
 };
 
-// Copy files to project
-const copy = () => {
-  return src(['source/fonts/**/*.{woff,woff2}', 'source/js/**/*.min.js'], {base: 'source'})
-    .pipe(dest('build'));
-};
-
-// Copy slick library to build directory
-const slick = () => {
-  return src(['source/slick/**/*'], {base: 'source'})
-    .pipe(dest('build'));
-};
-
-// HTML optimizations
-const html = () => {
-  return src('source/*.html')
-    .pipe(posthtml([include()]))
-    .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(dest('build'));
-};
-
 // Images optimizations
 const images = () => {
   return src('source/img/**/*.{png,jpg,svg}')
@@ -66,6 +58,14 @@ const images = () => {
       imagemin.svgo()
     ]))
     .pipe(dest('build/img'));
+};
+
+// Copy files to project
+const copy = () => {
+  const FONTS = SourceFiles.FONTS;
+
+  return src(FONTS)
+    .pipe(dest('build'));
 };
 
 // Create and copy WebP images to build directory
