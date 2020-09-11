@@ -1,4 +1,4 @@
-Название: **Глейси**
+Название: **Глейси** [![Build Status](https://travis-ci.com/IOINITID/gllacy.svg?branch=master)](https://travis-ci.com/IOINITID/gllacy)
 
 ------------
 
