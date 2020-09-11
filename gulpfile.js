@@ -106,7 +106,7 @@ const server = () => {
 };
 
 // Build project
-const build = series(clean, parallel(styles, scripts, copy, slick, html, webp, images));
+const build = series(clean, parallel(styles, scripts, copy, html, webp, images));
 
 // Start server
 const start = series(build, server);
