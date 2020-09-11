@@ -79,7 +79,7 @@ const webp = () => {
 const scripts = () => {
   return src(['source/js/**/*.js', '!source/js/**/*.min.js'])
     .pipe(babel({presets: ['@babel/env']}))
-    .pipe(uglify())
+    .pipe(terser())
     .pipe(rename({suffix: '.min'}))
     .pipe(dest('build/js'));
 };
