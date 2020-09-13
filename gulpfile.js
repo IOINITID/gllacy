@@ -23,15 +23,15 @@ const SourceFiles = {
   STYLES: 'source/sass/style.scss',
   SCRIPTS: 'source/js/**/*.js',
   FONTS: 'source/fonts/**/*.{woff2,woff,ttf}',
-  IMAGES: 'source/img/**/*.{jpg,png}',
-  SVG: 'source/img/icon-*.svg',
+  IMAGES: 'source/img/**/*.{jpg,png,svg}',
+  SVG: 'source/img/*-icon.svg',
   WATCH: {
     MARKUP: 'source/**/*.html',
     STYLES: 'source/sass/**/*.scss',
     SCRIPTS: 'source/js/**/*.js',
     FONTS: 'source/fonts/**/*.{woff2,woff,ttf}',
-    IMAGES: 'source/img/**/*.{jpg,png}',
-    SVG: 'source/img/icon-*.svg',
+    IMAGES: 'source/img/**/*.{jpg,png,svg}',
+    SVG: 'source/img/*-icon.svg',
   }
 };
 
@@ -86,8 +86,7 @@ const images = () => {
   return src(IMAGES)
     .pipe(imagemin([
       imagemin.jpegtran({progressive: true}),
-      imagemin.optipng({optimizationLevel: 3}),
-      imagemin.svgo()
+      imagemin.optipng({optimizationLevel: 3})
     ]))
     .pipe(dest('build/img'))
     .pipe(browserSync.stream());
